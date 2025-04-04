@@ -57,6 +57,5 @@ class GildedRose(val items: List<Item>) {
         item.sellIn in 5..<10 -> 2
         else -> 1
     }
-
 }
 
