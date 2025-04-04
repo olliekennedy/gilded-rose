@@ -52,10 +52,10 @@ class GildedRose(val items: List<Item>) {
         }
     }
 
-    private fun updatedQualityForBackstagePasses(item: Item) = item.quality + when {
-        item.sellIn < 5 -> 3
-        item.sellIn in 5..<10 -> 2
-        else -> 1
+    private fun updatedQualityForBackstagePasses(item: Item) = when {
+        item.sellIn < 5 -> item.quality + 3
+        item.sellIn in 5..<10 -> item.quality + 2
+        else -> item.quality + 1
     }
 }
 
