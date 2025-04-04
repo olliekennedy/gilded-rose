@@ -8,6 +8,10 @@ class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
+            if (item.name != SULFURAS) {
+                item.sellIn -= 1
+            }
+
             when {
                 item.name == AGED_BRIE -> {
                     if (item.quality < 50) {
@@ -26,10 +30,6 @@ class GildedRose(val items: List<Item>) {
                         item.quality -= 1
                     }
                 }
-            }
-
-            if (item.name != SULFURAS) {
-                item.sellIn -= 1
             }
 
             if (item.sellIn < 0) {
@@ -53,8 +53,8 @@ class GildedRose(val items: List<Item>) {
     }
 
     private fun updatedQualityForBackstagePasses(item: Item) = item.quality + when {
-        item.sellIn < 6 -> 3
-        item.sellIn in 6..<11 -> 2
+        item.sellIn < 5 -> 3
+        item.sellIn in 5..<10 -> 2
         else -> 1
     }
 
