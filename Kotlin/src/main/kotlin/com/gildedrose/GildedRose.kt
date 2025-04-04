@@ -15,11 +15,7 @@ class GildedRose(val items: List<Item>) {
                     }
                 }
                 item.name == BACKSTAGE_PASSES -> {
-                    item.quality += when {
-                        item.sellIn < 6 -> 3
-                        item.sellIn in 6..<11 -> 2
-                        else -> 1
-                    }
+                    item.quality = updatedQualityForBackstagePasses(item)
 
                     if (item.quality >= 50) {
                         item.quality = 50
@@ -54,6 +50,12 @@ class GildedRose(val items: List<Item>) {
                 }
             }
         }
+    }
+
+    private fun updatedQualityForBackstagePasses(item: Item) = item.quality + when {
+        item.sellIn < 6 -> 3
+        item.sellIn in 6..<11 -> 2
+        else -> 1
     }
 
 }
