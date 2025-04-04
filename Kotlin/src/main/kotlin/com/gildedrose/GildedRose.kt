@@ -7,7 +7,7 @@ private const val AGED_BRIE = "Aged Brie"
 class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
-        for (item in items) {
+        items.forEach { item ->
             if (item.name != AGED_BRIE && item.name != BACKSTAGE_PASSES) {
                 if (item.quality > 0) {
                     if (item.name != SULFURAS) {
