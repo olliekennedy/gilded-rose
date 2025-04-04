@@ -30,9 +30,6 @@ class GildedRose(val items: List<Item>) {
                     AGED_BRIE -> {
                         item.quality = item.quality.increaseWithLimit(1, 50)
                     }
-                    BACKSTAGE_PASSES -> {
-                        item.quality = 0
-                    }
                     SULFURAS -> {}
                     else -> {
                         item.quality = item.quality.decreaseWithLimit(1, 0)
@@ -43,6 +40,7 @@ class GildedRose(val items: List<Item>) {
     }
 
     private fun updatedQualityForBackstagePasses(item: Item) = when {
+        item.sellIn < 0 -> 0
         item.sellIn < 5 -> item.quality.increaseWithLimit(3, 50)
         item.sellIn in 5..<10 -> item.quality.increaseWithLimit(2, 50)
         else -> item.quality.increaseWithLimit(1, 50)
