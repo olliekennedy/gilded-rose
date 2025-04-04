@@ -15,15 +15,14 @@ class GildedRose(val items: List<Item>) {
                     }
                 }
                 item.name == BACKSTAGE_PASSES -> {
-                    if (item.quality < 50) {
-                        item.quality += 1
+                    item.quality += when {
+                        item.sellIn < 6 -> 3
+                        item.sellIn in 6..<11 -> 2
+                        else -> 1
+                    }
 
-                        if (item.quality < 50) {
-                            when {
-                                item.sellIn in 6..<11 -> item.quality += 1
-                                item.sellIn < 6 -> item.quality += 2
-                            }
-                        }
+                    if (item.quality >= 50) {
+                        item.quality = 50
                     }
                 }
                 item.name != SULFURAS -> {
