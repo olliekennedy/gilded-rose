@@ -42,11 +42,10 @@ class GildedRose(val items: List<Item>) {
                             item.quality += 1
                         }
                     }
+                    SULFURAS -> {}
                     else -> {
-                        if (item.name != SULFURAS) {
-                            if (item.quality > 0) {
-                                item.quality -= 1
-                            }
+                        if (item.quality > 0) {
+                            item.quality -= 1
                         }
                     }
                 }
