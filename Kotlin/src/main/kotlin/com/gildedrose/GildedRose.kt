@@ -35,13 +35,13 @@ class GildedRose(val items: List<Item>) {
             if (item.sellIn < 0) {
                 if (item.name == BACKSTAGE_PASSES) {
                     item.quality = 0
-                } else if (item.name != AGED_BRIE) {
-                    if (item.quality > 0 && item.name != SULFURAS) {
-                        item.quality -= 1
-                    }
-                } else {
+                } else if (item.name == AGED_BRIE) {
                     if (item.quality < 50) {
                         item.quality += 1
+                    }
+                } else {
+                    if (item.quality > 0 && item.name != SULFURAS) {
+                        item.quality -= 1
                     }
                 }
             }
