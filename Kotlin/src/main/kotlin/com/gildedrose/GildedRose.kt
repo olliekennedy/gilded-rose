@@ -18,14 +18,11 @@ class GildedRose(val items: List<Item>) {
                     if (item.quality < 50) {
                         item.quality += 1
 
-                        if (item.sellIn in 6..<11) {
-                            if (item.quality < 50) {
+                        if (item.quality < 50) {
+                            if (item.sellIn in 6..<11) {
                                 item.quality += 1
                             }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
+                            if (item.sellIn < 6) {
                                 item.quality += 2
                             }
                         }
