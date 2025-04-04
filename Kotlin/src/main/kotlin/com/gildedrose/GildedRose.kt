@@ -35,13 +35,13 @@ class GildedRose(val items: List<Item>) {
 
             if (item.sellIn < 0) {
                 when (item.name) {
-                    BACKSTAGE_PASSES -> {
-                        item.quality = 0
-                    }
                     AGED_BRIE -> {
                         if (item.quality < 50) {
                             item.quality += 1
                         }
+                    }
+                    BACKSTAGE_PASSES -> {
+                        item.quality = 0
                     }
                     SULFURAS -> {}
                     else -> {
