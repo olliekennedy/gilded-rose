@@ -14,40 +14,28 @@ class GildedRose(val items: List<Item>) {
 
             when (item.name) {
                 AGED_BRIE -> {
-                    if (item.quality < 50) {
-                        item.quality += 1
-                    }
+                    item.quality = item.quality.increaseWithLimit(1, 50)
                 }
                 BACKSTAGE_PASSES -> {
                     item.quality = updatedQualityForBackstagePasses(item)
-
-                    if (item.quality >= 50) {
-                        item.quality = 50
-                    }
                 }
                 SULFURAS -> {}
                 else -> {
-                    if (item.quality > 0) {
-                        item.quality -= 1
-                    }
+                    item.quality = item.quality.decreaseWithLimit(1, 0)
                 }
             }
 
             if (item.sellIn < 0) {
                 when (item.name) {
                     AGED_BRIE -> {
-                        if (item.quality < 50) {
-                            item.quality += 1
-                        }
+                        item.quality = item.quality.increaseWithLimit(1, 50)
                     }
                     BACKSTAGE_PASSES -> {
                         item.quality = 0
                     }
                     SULFURAS -> {}
                     else -> {
-                        if (item.quality > 0) {
-                            item.quality -= 1
-                        }
+                        item.quality = item.quality.decreaseWithLimit(1, 0)
                     }
                 }
             }
@@ -55,9 +43,15 @@ class GildedRose(val items: List<Item>) {
     }
 
     private fun updatedQualityForBackstagePasses(item: Item) = when {
-        item.sellIn < 5 -> item.quality + 3
-        item.sellIn in 5..<10 -> item.quality + 2
-        else -> item.quality + 1
+        item.sellIn < 5 -> item.quality.increaseWithLimit(3, 50)
+        item.sellIn in 5..<10 -> item.quality.increaseWithLimit(2, 50)
+        else -> item.quality.increaseWithLimit(1, 50)
     }
 }
+
+private fun Int.increaseWithLimit(increase: Int, limit: Int): Int =
+    this.plus(increase).takeIf { it < limit } ?: limit
+
+private fun Int.decreaseWithLimit(decrease: Int, limit: Int): Int =
+    this.minus(decrease).takeIf { it > limit } ?: limit
 
