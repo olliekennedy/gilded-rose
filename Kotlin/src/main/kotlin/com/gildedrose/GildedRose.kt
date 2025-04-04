@@ -8,13 +8,7 @@ class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item.name != AGED_BRIE && item.name != BACKSTAGE_PASSES) {
-                if (item.quality > 0) {
-                    if (item.name != SULFURAS) {
-                        item.quality -= 1
-                    }
-                }
-            } else {
+            if (item.name == AGED_BRIE || item.name == BACKSTAGE_PASSES) {
                 if (item.quality < 50) {
                     item.quality += 1
 
@@ -30,6 +24,12 @@ class GildedRose(val items: List<Item>) {
                                 item.quality += 1
                             }
                         }
+                    }
+                }
+            } else {
+                if (item.quality > 0) {
+                    if (item.name != SULFURAS) {
+                        item.quality -= 1
                     }
                 }
             }
