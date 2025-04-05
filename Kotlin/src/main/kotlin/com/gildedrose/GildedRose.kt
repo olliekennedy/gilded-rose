@@ -12,12 +12,14 @@ class GildedRose(val items: List<Item>) {
 
             item.sellIn -= 1
 
+            if (item.name == BACKSTAGE_PASSES) {
+                item.quality = updatedQualityForBackstagePasses(item)
+                return@forEach
+            }
+
             when (item.name) {
                 AGED_BRIE -> {
                     item.quality = item.quality.increaseWithLimit(1, 50)
-                }
-                BACKSTAGE_PASSES -> {
-                    item.quality = updatedQualityForBackstagePasses(item)
                 }
                 else -> {
                     item.quality = item.quality.decreaseWithLimit(1, 0)
