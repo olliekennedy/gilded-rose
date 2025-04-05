@@ -1,5 +1,8 @@
 package com.gildedrose
 
+import kotlin.math.max
+import kotlin.math.min
+
 private const val BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 private const val SULFURAS = "Sulfuras, Hand of Ragnaros"
 private const val AGED_BRIE = "Aged Brie"
@@ -43,8 +46,8 @@ class GildedRose(val items: List<Item>) {
 }
 
 private fun Int.increaseWithLimit(increase: Int, limit: Int): Int =
-    this.plus(increase).takeIf { it < limit } ?: limit
+    min(this + increase, limit)
 
 private fun Int.decreaseWithLimit(decrease: Int, limit: Int): Int =
-    this.minus(decrease).takeIf { it > limit } ?: limit
+    max(this - decrease, limit)
 
