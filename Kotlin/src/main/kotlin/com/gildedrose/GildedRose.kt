@@ -17,16 +17,9 @@ class GildedRose(val items: List<Item>) {
                 return@forEach
             }
 
-            when (item.name) {
-                AGED_BRIE -> {
-                    item.quality = item.quality.increaseWithLimit(1, 50)
-                }
-                else -> {
-                    item.quality = item.quality.decreaseWithLimit(1, 0)
-                }
-            }
+            val degradationMultiplier = if (item.sellIn < 0) 2 else 1
 
-            if (item.sellIn < 0) {
+            repeat(degradationMultiplier) {
                 when (item.name) {
                     AGED_BRIE -> {
                         item.quality = item.quality.increaseWithLimit(1, 50)
