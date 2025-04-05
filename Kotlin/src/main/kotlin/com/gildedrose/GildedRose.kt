@@ -12,19 +12,21 @@ class GildedRose(val items: List<Item>) {
 
             item.sellIn -= 1
 
-            if (item.name == BACKSTAGE_PASSES) {
-                item.quality = updatedQualityForBackstagePasses(item)
-                return@forEach
-            }
-
             val degradationMultiplier = if (item.sellIn < 0) 2 else 1
 
-            repeat(degradationMultiplier) {
-                when (item.name) {
-                    AGED_BRIE -> {
+            when (item.name) {
+                AGED_BRIE -> {
+                    repeat(degradationMultiplier) {
                         item.quality = item.quality.increaseWithLimit(1, 50)
                     }
-                    else -> {
+                }
+
+                BACKSTAGE_PASSES -> {
+                    item.quality = updatedQualityForBackstagePasses(item)
+                }
+
+                else -> {
+                    repeat(degradationMultiplier) {
                         item.quality = item.quality.decreaseWithLimit(1, 0)
                     }
                 }
