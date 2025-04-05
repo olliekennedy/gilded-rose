@@ -8,9 +8,9 @@ class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
         items.forEach { item ->
-            if (item.name != SULFURAS) {
-                item.sellIn -= 1
-            }
+            if (item.name == SULFURAS) return@forEach
+
+            item.sellIn -= 1
 
             when (item.name) {
                 AGED_BRIE -> {
@@ -19,7 +19,6 @@ class GildedRose(val items: List<Item>) {
                 BACKSTAGE_PASSES -> {
                     item.quality = updatedQualityForBackstagePasses(item)
                 }
-                SULFURAS -> {}
                 else -> {
                     item.quality = item.quality.decreaseWithLimit(1, 0)
                 }
@@ -30,7 +29,6 @@ class GildedRose(val items: List<Item>) {
                     AGED_BRIE -> {
                         item.quality = item.quality.increaseWithLimit(1, 50)
                     }
-                    SULFURAS -> {}
                     else -> {
                         item.quality = item.quality.decreaseWithLimit(1, 0)
                     }
