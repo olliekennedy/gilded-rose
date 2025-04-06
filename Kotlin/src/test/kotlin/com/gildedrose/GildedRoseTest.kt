@@ -38,13 +38,11 @@ internal class GildedRoseTest {
         )
         val app = GildedRose(items)
 
-        repeat(2) {
-            app.updateQuality()
-        }
+        app.updateQuality()
 
         assertThat(app.items[0].name, equalTo("Banana"))
-        assertThat(app.items[0].sellIn, equalTo(3))
-        assertThat(app.items[0].quality, equalTo(28))
+        assertThat(app.items[0].sellIn, equalTo(4))
+        assertThat(app.items[0].quality, equalTo(29))
     }
 
     @Test
@@ -54,13 +52,11 @@ internal class GildedRoseTest {
         )
         val app = GildedRose(items)
 
-        repeat(2) {
-            app.updateQuality()
-        }
+        app.updateQuality()
 
         assertThat(app.items[0].name, equalTo("Banana"))
-        assertThat(app.items[0].sellIn, equalTo(-4))
-        assertThat(app.items[0].quality, equalTo(26))
+        assertThat(app.items[0].sellIn, equalTo(-3))
+        assertThat(app.items[0].quality, equalTo(28))
     }
 
     @Test
@@ -70,13 +66,11 @@ internal class GildedRoseTest {
         )
         val app = GildedRose(items)
 
-        repeat(2) {
-            app.updateQuality()
-        }
+        app.updateQuality()
 
         assertThat(app.items[0].name, equalTo(AGED_BRIE))
-        assertThat(app.items[0].sellIn, equalTo(3))
-        assertThat(app.items[0].quality, equalTo(32))
+        assertThat(app.items[0].sellIn, equalTo(4))
+        assertThat(app.items[0].quality, equalTo(31))
     }
 
     @Test
@@ -86,13 +80,11 @@ internal class GildedRoseTest {
         )
         val app = GildedRose(items)
 
-        repeat(2) {
-            app.updateQuality()
-        }
+        app.updateQuality()
 
         assertThat(app.items[0].name, equalTo(AGED_BRIE))
-        assertThat(app.items[0].sellIn, equalTo(-4))
-        assertThat(app.items[0].quality, equalTo(34))
+        assertThat(app.items[0].sellIn, equalTo(-3))
+        assertThat(app.items[0].quality, equalTo(32))
     }
 
     @Test
