@@ -20,6 +20,7 @@ dependencies {
 	implementation(kotlin("stdlib"))
 	testImplementation(kotlin("test"))
 	testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
+	testImplementation("com.natpryce:hamkrest:1.8.0.1")
 }
 
 tasks.test {

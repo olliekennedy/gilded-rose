@@ -3,9 +3,9 @@ package com.gildedrose
 import kotlin.math.max
 import kotlin.math.min
 
-private const val BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
-private const val SULFURAS = "Sulfuras, Hand of Ragnaros"
-private const val AGED_BRIE = "Aged Brie"
+const val BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
+const val SULFURAS = "Sulfuras, Hand of Ragnaros"
+const val AGED_BRIE = "Aged Brie"
 
 class GildedRose(val items: List<Item>) {
 
