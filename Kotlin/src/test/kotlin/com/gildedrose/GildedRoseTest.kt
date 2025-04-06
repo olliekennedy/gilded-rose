@@ -46,6 +46,20 @@ internal class GildedRoseTest {
     }
 
     @Test
+    fun `a conjured item degrades at double the normal rate`() {
+        val items = listOf(
+            Item("Conjured Banana", 5, 30),
+        )
+        val app = GildedRose(items)
+
+        app.updateQuality()
+
+        assertThat(app.items[0].name, equalTo("Conjured Banana"))
+        assertThat(app.items[0].sellIn, equalTo(4))
+        assertThat(app.items[0].quality, equalTo(28))
+    }
+
+    @Test
     fun `an item past its sell by date degrades at double rate`() {
         val items = listOf(
             Item("Banana", -2, 30),

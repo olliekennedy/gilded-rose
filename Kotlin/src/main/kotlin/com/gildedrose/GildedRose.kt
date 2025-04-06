@@ -15,7 +15,10 @@ class GildedRose(val items: List<Item>) {
 
             item.sellIn -= 1
 
-            val degradationMultiplier = if (item.sellIn < 0) 2 else 1
+            val conjuredMultiplier = if (item.name.startsWith("Conjured")) 2 else 1
+            val passedSellByDateMultiplier = if (item.sellIn < 0) 2 else 1
+
+            val degradationMultiplier = conjuredMultiplier * passedSellByDateMultiplier
 
             when (item.name) {
                 AGED_BRIE -> {
