@@ -6,38 +6,46 @@ import kotlin.math.min
 const val BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 const val SULFURAS = "Sulfuras, Hand of Ragnaros"
 const val AGED_BRIE = "Aged Brie"
+const val CONJURED = "Conjured"
 
 class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
-        items.forEach { item ->
-            if (item.name == SULFURAS) return@forEach
+        items.forEach { updateQualityFor(it) }
+    }
 
-            item.sellIn -= 1
+    private fun updateQualityFor(item: Item) {
+        if (item.name == SULFURAS) return
 
-            val conjuredMultiplier = if (item.name.startsWith("Conjured")) 2 else 1
-            val passedSellByDateMultiplier = if (item.sellIn < 0) 2 else 1
+        item.sellIn -= 1
 
-            val degradationMultiplier = conjuredMultiplier * passedSellByDateMultiplier
+        val degradationMultiplier = calculateDegradationRateFor(item)
 
-            when (item.name) {
-                AGED_BRIE -> {
-                    repeat(degradationMultiplier) {
-                        item.quality = item.quality.increaseWithLimit(1, 50)
-                    }
+        when (item.name) {
+            AGED_BRIE -> {
+                repeat(degradationMultiplier) {
+                    item.quality = item.quality.increaseWithLimit(1, 50)
                 }
+            }
 
-                BACKSTAGE_PASSES -> {
-                    item.quality = updatedQualityForBackstagePasses(item)
-                }
+            BACKSTAGE_PASSES -> {
+                item.quality = updatedQualityForBackstagePasses(item)
+            }
 
-                else -> {
-                    repeat(degradationMultiplier) {
-                        item.quality = item.quality.decreaseWithLimit(1, 0)
-                    }
+            else -> {
+                repeat(degradationMultiplier) {
+                    item.quality = item.quality.decreaseWithLimit(1, 0)
                 }
             }
         }
+    }
+
+    private fun calculateDegradationRateFor(item: Item): Int {
+        val conjuredMultiplier = if (item.name.startsWith(CONJURED)) 2 else 1
+        val passedSellByDateMultiplier = if (item.sellIn < 0) 2 else 1
+
+        val degradationMultiplier = conjuredMultiplier * passedSellByDateMultiplier
+        return degradationMultiplier
     }
 
     private fun updatedQualityForBackstagePasses(item: Item) = when {
