@@ -11,11 +11,14 @@ const val CONJURED = "Conjured"
 class GildedRose(val items: List<Item>) {
 
     fun updateQuality() {
-        items.forEach { updateQualityFor(it) }
+        items = items
+            .map { GildedRoseItem.from(it) }
+            .map { updateQualityFor(it) }
+            .map { Item(it.name, it.sellIn, it.quality) }
     }
 
-    private fun updateQualityFor(item: Item) {
-        if (item.name == SULFURAS) return
+    private fun updateQualityFor(item: GildedRoseItem): GildedRoseItem {
+        if (item.name == SULFURAS) return item
 
         item.sellIn -= 1
 
@@ -34,16 +37,18 @@ class GildedRose(val items: List<Item>) {
                 item.quality = item.quality.decrease(downTo = 0, by = degradationAmount)
             }
         }
+
+        return item
     }
 
-    private fun calculateDegradationRateFor(item: Item): Int {
+    private fun calculateDegradationRateFor(item: GildedRoseItem): Int {
         val conjuredMultiplier = if (item.name.startsWith(CONJURED)) 2 else 1
         val passedSellByDateMultiplier = if (item.sellIn < 0) 2 else 1
 
         return conjuredMultiplier * passedSellByDateMultiplier
     }
 
-    private fun updatedQualityForBackstagePasses(item: Item) =
+    private fun updatedQualityForBackstagePasses(item: GildedRoseItem) =
         when {
             item.sellIn < 0 -> 0
             item.sellIn < 5 -> {
@@ -60,8 +65,18 @@ class GildedRose(val items: List<Item>) {
         }
 }
 
-private fun Int.increaseWithLimit(increase: Int, limit: Int): Int =
-    min(this + increase, limit)
+class GildedRoseItem(
+    val name: String,
+    var sellIn: Int,
+    var quality: Int,
+) {
+    companion object {
+        fun from(it: Item) = GildedRoseItem(it.name, it.sellIn, it.quality)
+    }
+}
+
+private fun Int.increase(upTo: Int, by: Int): Int =
+    min(this + by, upTo)
 
 private fun Int.decrease(downTo: Int, by: Int): Int =
     max(this - by, downTo)
