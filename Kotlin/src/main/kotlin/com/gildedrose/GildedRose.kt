@@ -19,13 +19,11 @@ class GildedRose(val items: List<Item>) {
 
         item.sellIn -= 1
 
-        val degradationMultiplier = calculateDegradationRateFor(item)
+        val degradationAmount = calculateDegradationRateFor(item)
 
         when (item.name) {
             AGED_BRIE -> {
-                repeat(degradationMultiplier) {
-                    item.quality = item.quality.increaseWithLimit(1, 50)
-                }
+                item.quality = item.quality.increase(upTo = 50, by = degradationAmount)
             }
 
             BACKSTAGE_PASSES -> {
@@ -33,9 +31,7 @@ class GildedRose(val items: List<Item>) {
             }
 
             else -> {
-                repeat(degradationMultiplier) {
-                    item.quality = item.quality.decreaseWithLimit(1, 0)
-                }
+                item.quality = item.quality.decrease(downTo = 0, by = degradationAmount)
             }
         }
     }
@@ -44,21 +40,29 @@ class GildedRose(val items: List<Item>) {
         val conjuredMultiplier = if (item.name.startsWith(CONJURED)) 2 else 1
         val passedSellByDateMultiplier = if (item.sellIn < 0) 2 else 1
 
-        val degradationMultiplier = conjuredMultiplier * passedSellByDateMultiplier
-        return degradationMultiplier
+        return conjuredMultiplier * passedSellByDateMultiplier
     }
 
-    private fun updatedQualityForBackstagePasses(item: Item) = when {
-        item.sellIn < 0 -> 0
-        item.sellIn < 5 -> item.quality.increaseWithLimit(3, 50)
-        item.sellIn in 5..<10 -> item.quality.increaseWithLimit(2, 50)
-        else -> item.quality.increaseWithLimit(1, 50)
-    }
+    private fun updatedQualityForBackstagePasses(item: Item) =
+        when {
+            item.sellIn < 0 -> 0
+            item.sellIn < 5 -> {
+                item.quality.increase(upTo = 50, by = 3)
+            }
+
+            item.sellIn in 5..<10 -> {
+                item.quality.increase(upTo = 50, by = 2)
+            }
+
+            else -> {
+                item.quality.increase(upTo = 50, by = 1)
+            }
+        }
 }
 
 private fun Int.increaseWithLimit(increase: Int, limit: Int): Int =
     min(this + increase, limit)
 
-private fun Int.decreaseWithLimit(decrease: Int, limit: Int): Int =
-    max(this - decrease, limit)
+private fun Int.decrease(downTo: Int, by: Int): Int =
+    max(this - by, downTo)
 
